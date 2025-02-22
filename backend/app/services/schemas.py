@@ -1,5 +1,6 @@
 from pydantic import BaseModel
+from typing import List, Optional
 
-class DatasetSchema(BaseModel):
-    id:int # To Do
-    
+class ROIResponse(BaseModel):
+    labels: List[str]
+    values: List[float]
