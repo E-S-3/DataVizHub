@@ -1,13 +1,3 @@
-# DB_CONFIG = {
-    
-#     "host": "localhost",
-#     "user": "root",
-#     "password": "", # change accordingly
-#     "database": "microservices_dashboard", # change accordingly
-#     "DATABASE_URL": "mysql+pymysql://root:@localhost/microservices_dashboard"
-
-# }
-
 import os
 from dotenv import load_dotenv
 
@@ -23,7 +13,7 @@ class Settings:
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "")  # No password by default
     DB_HOST: str = os.getenv("DB_HOST", "localhost")  # XAMPP runs on localhost
     DB_PORT: str = os.getenv("DB_PORT", "3306")  # Default MySQL port
-    DB_NAME: str = os.getenv("DB_NAME", "microservices_dashboard")
+    DB_NAME: str = os.getenv("DB_NAME", "data_viz_hub")
 
     DATABASE_URL: str = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
