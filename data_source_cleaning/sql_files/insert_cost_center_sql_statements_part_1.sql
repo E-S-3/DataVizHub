@@ -1,4 +1,4 @@
-USE revex_insights;
+USE data_viz_hub;
 INSERT INTO cost_center (cost_center_id, cost_center_description, cost_center_description_key) VALUES (103000, 'INNOVATION & PERFORMANCE', 'INNOVATION_AND_PERFORMANCE');
 INSERT INTO cost_center (cost_center_id, cost_center_description, cost_center_description_key) VALUES (107000, 'FINANCE', 'FINANCE');
 INSERT INTO cost_center (cost_center_id, cost_center_description, cost_center_description_key) VALUES (230000, 'PS - POLICE BUREAU', 'PS_POLICE_BUREAU');

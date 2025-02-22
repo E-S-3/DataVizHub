@@ -1,4 +1,4 @@
-USE revex_insights;
+USE data_viz_hub;
 INSERT INTO department (department_id, department_name, department_name_key) VALUES (103, 'Innovation and Performance', 'INNOVATION_AND_PERFORMANCE');
 INSERT INTO department (department_id, department_name, department_name_key) VALUES (107, 'Department of Finance', 'DEPARTMENT_OF_FINANCE');
 INSERT INTO department (department_id, department_name, department_name_key) VALUES (230, 'Department of Public Safety - Police', 'DEPARTMENT_OF_PUBLIC_SAFETY_POLICE');

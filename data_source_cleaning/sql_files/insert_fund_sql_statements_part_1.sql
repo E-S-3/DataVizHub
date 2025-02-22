@@ -1,4 +1,4 @@
-USE revex_insights;
+USE data_viz_hub;
 INSERT INTO fund (fund_id, fund_description, fund_description_key) VALUES (11101, 'General Fund', 'GENERAL_FUND');
 INSERT INTO fund (fund_id, fund_description, fund_description_key) VALUES (28050, 'Senior Citizens Program Trust Fund', 'SENIOR_CITIZENS_PROGRAM_TRUST_FUND');
 INSERT INTO fund (fund_id, fund_description, fund_description_key) VALUES (28020, 'Equal Employment Opportunity Commission Trust Fund', 'EQUAL_EMPLOYMENT_OPPORTUNITY_COMMISSION_TRUST_FUND');
