@@ -1,18 +1,98 @@
-name: Docker Image CI
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-
-  build:
-
+  build-and-push:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Get Latest Version
+        id: version
+        run: echo "VERSION=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+
+      - name: Build & Push MySQL Image
+        run: |
+          docker pull mysql:latest
+          docker tag mysql:latest ${{ secrets.DOCKER_USERNAME }}/mysql:${{ env.VERSION }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/mysql:${{ env.VERSION }}
+
+      - name: Build & Push Backend Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/fastapi-backend:${{ env.VERSION }} -f backend/backend.dockerfile ./backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/fastapi-backend:${{ env.VERSION }}
+
+      - name: Build & Push Frontend Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/react-frontend:${{ env.VERSION }} -f newfrontend/frontend.dockerfile ./newfrontend
+          docker push ${{ secrets.DOCKER_USERNAME }}/react-frontend:${{ env.VERSION }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+      - name: Start Minikube
+        run: minikube start --driver=docker
+
+      - name: Deploy MySQL
+        run: |
+          kubectl create deployment mysql --image=${{ secrets.DOCKER_USERNAME }}/mysql:${{ env.VERSION }} --dry-run=client -o yaml | kubectl apply -f -
+          kubectl expose deployment mysql --type=ClusterIP --port=3306
+
+      - name: Deploy Backend
+        run: |
+          kubectl create deployment fastapi-backend --image=${{ secrets.DOCKER_USERNAME }}/fastapi-backend:${{ env.VERSION }} --dry-run=client -o yaml | kubectl apply -f -
+          kubectl expose deployment fastapi-backend --type=NodePort --port=8000 --target-port=8000
+
+      - name: Deploy Frontend
+        run: |
+          kubectl create deployment react-frontend --image=${{ secrets.DOCKER_USERNAME }}/react-frontend:${{ env.VERSION }} --dry-run=client -o yaml | kubectl apply -f -
+          kubectl expose deployment react-frontend --type=NodePort --port=3000 --target-port=80
+
+      - name: Verify Deployment
+        run: kubectl get pods && kubectl get services
+
+  rollback:
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+      - name: Get Previous Docker Tag
+        run: echo "PREV_VERSION=$(docker images --format '{{.Tag}}' | sort -r | sed -n '2p')" >> $GITHUB_ENV
+
+      - name: Rollback Deployment
+        run: |
+          kubectl set image deployment/mysql mysql=${{ secrets.DOCKER_USERNAME }}/mysql:${{ env.PREV_VERSION }}
+          kubectl set image deployment/fastapi-backend fastapi-backend=${{ secrets.DOCKER_USERNAME }}/fastapi-backend:${{ env.PREV_VERSION }}
+          kubectl set image deployment/react-frontend react-frontend=${{ secrets.DOCKER_USERNAME }}/react-frontend:${{ env.PREV_VERSION }}
+          echo "Rolled back to ${{ env.PREV_VERSION }}"
