@@ -12,10 +12,10 @@ def get_net_profit_api(
     department: Optional[int] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    time_unit: Optional[str] = "year",
     db: Session = Depends(get_db)
 ):
-    results = get_net_profit_by_time(db, department, start_date, end_date, time_unit)
+    
+    results = get_net_profit_by_time(db, department, start_date, end_date)
 
     times = [r[0] for r in results]
     net_profits = [float(r[1]) for r in results]

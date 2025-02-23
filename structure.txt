@@ -1,23 +1,20 @@
-microservices-dashboard/
+DATAVIZHUB/
 │── app/  # Main application directory
 │   ├── api/  # API-related files
-│   │   ├── endpoints/  # API route handlers
-│   │   │   ├── api1.py  # API Endpoint 1
-│   │   │   ├── api2.py  # API Endpoint 2
-│   │   │   ├── api3.py  # API Endpoint 3
-│   │   │   ├── api4.py  # API Endpoint 4
-│   │   │   ├── api5.py  # API Endpoint 5
-│   │   ├── __init__.py  # Marks this as a package
+│   │   ├── api1.py  # API Endpoint 1
+│   │   ├── api2.py  # API Endpoint 2
+│   │   ├── api3.py  # API Endpoint 3
+│   │   ├── api4.py  # API Endpoint 4
+│   │   ├── api5.py  # API Endpoint 5
 │   │   ├── router.py  # Registers all API routes
 │   ├── core/  # Core application logic
 │   │   ├── config.py  # Stores database configuration
 │   │   ├── database.py  # SQLAlchemy setup with pymysql
 │   │   ├── models.py  # Database table models
-│   ├── services/  # Business logic and services
-│   │   ├── data_ingestion.py  # Handles downloading CSV data asynchronously
-│   │   ├── data_cleaning.py  # Cleans and stores data in MySQL
+│   ├── services/  
 │   │   ├── data_queries.py  # Query logic for API endpoints
 │   │   ├── schemas.py  # Defines Pydantic schemas for data validation
-│   ├── main.py  # FastAPI app entry point
-│── data/  # Stores downloaded CSVs (gitignore this)
+│   ├── main.py  # FastAPI app entry 
+│   ├── middleware.py  # Log API Performance
+│── locustfile.py  # Stress test
 

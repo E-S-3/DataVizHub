@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from typing import Optional
 from app.services.data_queries import get_fund_table
-from app.services.schemas import FundTableResponse
 from app.core.database import get_db
 
 router = APIRouter()
@@ -12,11 +11,9 @@ def get_fund_table_api(
     department: Optional[int] = None,
     start_date: Optional[str] = None,
     end_date: Optional[str] = None,
-    sort_by: Optional[str] = "roi",
-    order: Optional[str] = "desc",
     db: Session = Depends(get_db)
 ):
-    results = get_fund_table(db, department, start_date, end_date, sort_by, order)
+    results = get_fund_table(db, department, start_date, end_date)
 
     return {
         "funds": [
