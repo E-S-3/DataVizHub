@@ -91,9 +91,6 @@ jobs:
           kubectl get services
           kubectl get hpa
 
-      - name: Get LoadBalancer URL
-        run: minikube service react-frontend --url
-
   rollback:
     runs-on: ubuntu-latest
     if: failure()
