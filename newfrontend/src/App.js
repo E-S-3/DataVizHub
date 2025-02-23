@@ -6,6 +6,10 @@ import { fetchPieChartData } from "./service/api1";
 import { fetchBarChartData } from "./service/api2";
 import { fetchLineChartData } from "./service/api3";
 import { fetchNetBarChartData } from "./service/api5";
+import { fetchFundTableData } from "./service/api4";
+import FundTableComponent from "./components/FundTableComponent";
+
+
 
 
 function App() {
@@ -14,6 +18,7 @@ function App() {
   const [barChartData, setBarChartData] = useState({ labels: [], values: [] });
   const [lineChartData, setLineChartData] = useState({ labels: [], series: [] });
   const [netBarChartData, setnetBarChartData] = useState({ labels: [], series: [] });
+  const [fundTableData, setFundTableData] = useState([]);
 
 
   useEffect(() => {
@@ -22,9 +27,10 @@ function App() {
       const barPromise = fetchBarChartData(filters);
       const linePromise = fetchLineChartData(filters);
       const netBarPromise = fetchNetBarChartData(filters);
+      const fundTablePromise = fetchFundTableData(filters);
 
       // Wait for all promises to resolve (they run simultaneously)
-      const [pieData, barData, lineData, netBarData] = await Promise.all([piePromise, barPromise, linePromise, netBarPromise]);
+      const [pieData, barData, lineData, netBarData, fundTableData] = await Promise.all([piePromise, barPromise, linePromise, netBarPromise, fundTablePromise]);
 
       
       setPieChartData({ labels: pieData.labels, values: pieData.values });
@@ -36,7 +42,8 @@ function App() {
             { name: "Expenses", data: lineData.expenses }
         ]
       });
-      setnetBarChartData({ labels: netBarData.times, values: netBarData.net_profits });
+      setnetBarChartData({ labels: netBarData.times, values: netBarData.net_profits })
+      setFundTableData(fundTableData);
 
     }
     getData();
@@ -148,15 +155,8 @@ function App() {
               height: { xs: "auto", lg: "auto" }, // Auto height on small screens, fixed on large screens
             }}>
             <CardContent>
-              <Typography variant="h6">Daily Sales</Typography>
-              <ReactApexChart
-                options={lineChartOptions}
-                series={[
-                  { name: "Daily Sales", data: [10, 20, 30, 40, 50, 60] },
-                  { name: "Completed Tasks", data: [5, 15, 25, 35, 45, 55] }
-                ]}
-                type="line"
-              />
+              <Typography variant="h6">api 4</Typography>
+              <FundTableComponent data={fundTableData} />
             </CardContent>
           </Card>
         </Grid>
