@@ -62,26 +62,37 @@ jobs:
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-      - name: Start Minikube
-        run: minikube start --driver=docker
+      - name: Start Minikube with LoadBalancer Support
+        run: minikube start --driver=docker --addons=ingress
 
       - name: Deploy MySQL
         run: |
           kubectl create deployment mysql --image=${{ secrets.DOCKER_USERNAME }}/mysql:${{ env.VERSION }} --dry-run=client -o yaml | kubectl apply -f -
           kubectl expose deployment mysql --type=ClusterIP --port=3306
 
-      - name: Deploy Backend
+      - name: Deploy Backend with Load Balancer
         run: |
           kubectl create deployment fastapi-backend --image=${{ secrets.DOCKER_USERNAME }}/fastapi-backend:${{ env.VERSION }} --dry-run=client -o yaml | kubectl apply -f -
-          kubectl expose deployment fastapi-backend --type=NodePort --port=8000 --target-port=8000
+          kubectl expose deployment fastapi-backend --type=LoadBalancer --port=8000 --target-port=8000
 
-      - name: Deploy Frontend
+      - name: Deploy Frontend with Load Balancer
         run: |
           kubectl create deployment react-frontend --image=${{ secrets.DOCKER_USERNAME }}/react-frontend:${{ env.VERSION }} --dry-run=client -o yaml | kubectl apply -f -
-          kubectl expose deployment react-frontend --type=NodePort --port=3000 --target-port=80
+          kubectl expose deployment react-frontend --type=LoadBalancer --port=3000 --target-port=80
+
+      - name: Enable Horizontal Pod Autoscaling
+        run: |
+          kubectl autoscale deployment fastapi-backend --cpu-percent=50 --min=1 --max=5
+          kubectl autoscale deployment react-frontend --cpu-percent=50 --min=1 --max=5
 
       - name: Verify Deployment
-        run: kubectl get pods && kubectl get services
+        run: |
+          kubectl get pods
+          kubectl get services
+          kubectl get hpa
+
+      - name: Get LoadBalancer URL
+        run: minikube service react-frontend --url
 
   rollback:
     runs-on: ubuntu-latest
