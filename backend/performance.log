@@ -1,0 +1,295 @@
+2025-02-23 12:50:02,999 - SELECT DATABASE()
+2025-02-23 12:50:03,000 - [raw sql] {}
+2025-02-23 12:50:03,001 - SELECT @@sql_mode
+2025-02-23 12:50:03,002 - [raw sql] {}
+2025-02-23 12:50:03,003 - SELECT @@lower_case_table_names
+2025-02-23 12:50:03,005 - [raw sql] {}
+2025-02-23 12:50:03,007 - BEGIN (implicit)
+2025-02-23 12:50:03,026 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 12:50:03,028 - [generated in 0.00218s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 12:50:10,998 - GET http://127.0.0.1:8000/docs - 0.00 ms
+2025-02-23 12:50:11,287 - GET http://127.0.0.1:8000/openapi.json - 0.04 ms
+2025-02-23 12:50:18,658 - BEGIN (implicit)
+2025-02-23 12:50:18,661 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 12:50:18,662 - [generated in 0.00069s] {}
+2025-02-23 12:50:18,666 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 12:50:18,667 - [generated in 0.00093s] {}
+2025-02-23 12:50:19,314 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 12:50:19,314 - [generated in 0.00072s] {}
+2025-02-23 12:50:20,057 - ROLLBACK
+2025-02-23 12:50:20,059 - GET http://127.0.0.1:8000/api/initialise - 1.41 ms
+2025-02-23 12:50:23,156 - BEGIN (implicit)
+2025-02-23 12:50:23,157 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 12:50:23,158 - [cached since 20.13s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 12:50:31,470 - ROLLBACK
+2025-02-23 12:50:31,472 - GET http://127.0.0.1:8000/api/top-roi/ - 28.50 ms
+2025-02-23 12:50:37,282 - BEGIN (implicit)
+2025-02-23 12:50:37,284 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 12:50:37,285 - [cached since 34.26s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 12:50:57,333 - ROLLBACK
+2025-02-23 12:50:57,336 - GET http://127.0.0.1:8000/api/top-roi/ - 34.18 ms
+2025-02-23 12:51:10,078 - ROLLBACK
+2025-02-23 12:51:10,079 - GET http://127.0.0.1:8000/api/top-roi/ - 32.80 ms
+2025-02-23 12:51:16,416 - BEGIN (implicit)
+2025-02-23 12:51:16,418 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 12:51:16,418 - [cached since 73.39s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 12:51:42,444 - ROLLBACK
+2025-02-23 12:51:42,445 - GET http://127.0.0.1:8000/api/top-roi/ - 26.03 ms
+2025-02-23 13:10:49,608 - BEGIN (implicit)
+2025-02-23 13:10:49,635 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:10:49,686 - [generated in 0.05021s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 107, 'param_3': 5}
+2025-02-23 13:10:53,482 - ROLLBACK
+2025-02-23 13:10:53,485 - GET http://127.0.0.1:8000/api/top-roi/?department=107 - 3.88 ms
+2025-02-23 13:11:29,854 - BEGIN (implicit)
+2025-02-23 13:11:29,859 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:11:29,861 - [cached since 40.23s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 107, 'param_3': 5}
+2025-02-23 13:11:32,703 - ROLLBACK
+2025-02-23 13:11:32,704 - GET http://127.0.0.1:8000/api/top-roi/?department=107&start_date=2017-08-01 - 2.85 ms
+2025-02-23 13:20:13,060 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:20:13,166 - BEGIN (implicit)
+2025-02-23 13:20:13,167 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:20:13,168 - [cached since 1810s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:20:13,171 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:20:13,383 - BEGIN (implicit)
+2025-02-23 13:20:13,384 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:20:13,384 - [cached since 1795s ago] {}
+2025-02-23 13:20:13,387 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:20:13,388 - [cached since 1795s ago] {}
+2025-02-23 13:20:13,814 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:20:13,814 - [cached since 1795s ago] {}
+2025-02-23 13:20:14,297 - ROLLBACK
+2025-02-23 13:20:14,299 - GET http://127.0.0.1:8000/api/initialise - 0.92 ms
+2025-02-23 13:20:14,304 - BEGIN (implicit)
+2025-02-23 13:20:14,305 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:20:14,305 - [cached since 1796s ago] {}
+2025-02-23 13:20:14,309 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:20:14,310 - [cached since 1796s ago] {}
+2025-02-23 13:20:14,687 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:20:14,689 - [cached since 1795s ago] {}
+2025-02-23 13:20:14,971 - ROLLBACK
+2025-02-23 13:20:14,972 - GET http://127.0.0.1:8000/api/initialise - 0.67 ms
+2025-02-23 13:20:31,322 - ROLLBACK
+2025-02-23 13:20:31,323 - GET http://127.0.0.1:8000/api/top-roi/ - 18.16 ms
+2025-02-23 13:20:31,330 - BEGIN (implicit)
+2025-02-23 13:20:31,331 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:20:31,331 - [cached since 1828s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:20:34,754 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:20:34,918 - BEGIN (implicit)
+2025-02-23 13:20:34,919 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:20:34,920 - [cached since 1832s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:20:34,928 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:20:35,744 - BEGIN (implicit)
+2025-02-23 13:20:35,744 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:20:35,746 - [cached since 1817s ago] {}
+2025-02-23 13:20:35,755 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:20:35,756 - [cached since 1817s ago] {}
+2025-02-23 13:20:36,540 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:20:36,540 - [cached since 1817s ago] {}
+2025-02-23 13:20:37,070 - ROLLBACK
+2025-02-23 13:20:37,071 - GET http://127.0.0.1:8000/api/initialise - 1.33 ms
+2025-02-23 13:20:37,076 - BEGIN (implicit)
+2025-02-23 13:20:37,077 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:20:37,077 - [cached since 1818s ago] {}
+2025-02-23 13:20:37,081 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:20:37,081 - [cached since 1818s ago] {}
+2025-02-23 13:20:37,753 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:20:37,753 - [cached since 1818s ago] {}
+2025-02-23 13:20:38,143 - ROLLBACK
+2025-02-23 13:20:38,144 - GET http://127.0.0.1:8000/api/initialise - 1.07 ms
+2025-02-23 13:20:55,046 - BEGIN (implicit)
+2025-02-23 13:20:55,047 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:20:55,047 - [cached since 1852s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:20:55,142 - ROLLBACK
+2025-02-23 13:20:55,143 - GET http://127.0.0.1:8000/api/top-roi/ - 23.82 ms
+2025-02-23 13:21:01,756 - ROLLBACK
+2025-02-23 13:21:01,757 - GET http://127.0.0.1:8000/api/top-roi/ - 26.84 ms
+2025-02-23 13:21:20,199 - ROLLBACK
+2025-02-23 13:21:20,200 - GET http://127.0.0.1:8000/api/top-roi/ - 25.16 ms
+2025-02-23 13:23:37,839 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:23:37,980 - BEGIN (implicit)
+2025-02-23 13:23:37,980 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:23:37,981 - [cached since 2015s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:23:37,985 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:23:53,723 - ROLLBACK
+2025-02-23 13:23:53,724 - GET http://127.0.0.1:8000/api/top-roi/ - 15.75 ms
+2025-02-23 13:24:19,133 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:24:19,138 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:24:19,432 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:24:19,441 - SELECT DATABASE()
+2025-02-23 13:24:19,442 - [raw sql] {}
+2025-02-23 13:24:19,444 - SELECT @@sql_mode
+2025-02-23 13:24:19,444 - [raw sql] {}
+2025-02-23 13:24:19,446 - SELECT @@lower_case_table_names
+2025-02-23 13:24:19,446 - [raw sql] {}
+2025-02-23 13:24:19,448 - BEGIN (implicit)
+2025-02-23 13:24:19,468 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:24:19,469 - [generated in 0.00098s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:24:19,567 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:24:21,280 - BEGIN (implicit)
+2025-02-23 13:24:21,282 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:24:21,283 - [generated in 0.00107s] {}
+2025-02-23 13:24:21,291 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:24:21,291 - [generated in 0.00069s] {}
+2025-02-23 13:24:22,077 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:24:22,078 - [generated in 0.00067s] {}
+2025-02-23 13:24:22,688 - ROLLBACK
+2025-02-23 13:24:22,691 - GET http://127.0.0.1:8000/api/initialise - 1.43 ms
+2025-02-23 13:24:22,695 - BEGIN (implicit)
+2025-02-23 13:24:22,696 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:24:22,697 - [cached since 1.416s ago] {}
+2025-02-23 13:24:22,704 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:24:22,705 - [cached since 1.415s ago] {}
+2025-02-23 13:24:23,255 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:24:23,256 - [cached since 1.178s ago] {}
+2025-02-23 13:24:23,748 - ROLLBACK
+2025-02-23 13:24:23,749 - GET http://127.0.0.1:8000/api/initialise - 1.06 ms
+2025-02-23 13:24:23,753 - BEGIN (implicit)
+2025-02-23 13:24:23,754 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:24:23,754 - [cached since 2.473s ago] {}
+2025-02-23 13:24:23,770 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:24:23,770 - [cached since 2.48s ago] {}
+2025-02-23 13:24:24,270 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:24:24,270 - [cached since 2.193s ago] {}
+2025-02-23 13:24:24,567 - ROLLBACK
+2025-02-23 13:24:24,569 - GET http://127.0.0.1:8000/api/initialise - 0.82 ms
+2025-02-23 13:24:24,572 - BEGIN (implicit)
+2025-02-23 13:24:24,573 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:24:24,573 - [cached since 3.292s ago] {}
+2025-02-23 13:24:24,576 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:24:24,577 - [cached since 3.286s ago] {}
+2025-02-23 13:24:24,985 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:24:24,986 - [cached since 2.908s ago] {}
+2025-02-23 13:24:25,281 - ROLLBACK
+2025-02-23 13:24:25,282 - GET http://127.0.0.1:8000/api/initialise - 0.71 ms
+2025-02-23 13:24:36,117 - ROLLBACK
+2025-02-23 13:24:36,118 - GET http://127.0.0.1:8000/api/top-roi/ - 16.70 ms
+2025-02-23 13:24:36,123 - BEGIN (implicit)
+2025-02-23 13:24:36,124 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:24:36,125 - [cached since 16.66s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:24:39,602 - BEGIN (implicit)
+2025-02-23 13:24:39,603 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:24:39,604 - [cached since 20.14s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:24:40,012 - BEGIN (implicit)
+2025-02-23 13:24:40,013 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:24:40,013 - [cached since 20.54s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:25:12,955 - ROLLBACK
+2025-02-23 13:25:12,957 - GET http://127.0.0.1:8000/api/top-roi/ - 36.84 ms
+2025-02-23 13:25:19,009 - ROLLBACK
+2025-02-23 13:25:19,010 - GET http://127.0.0.1:8000/api/top-roi/ - 39.41 ms
+2025-02-23 13:25:19,518 - ROLLBACK
+2025-02-23 13:25:19,519 - GET http://127.0.0.1:8000/api/top-roi/ - 39.51 ms
+2025-02-23 13:27:34,330 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:27:34,461 - BEGIN (implicit)
+2025-02-23 13:27:34,462 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:27:34,463 - [cached since 195s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:27:34,467 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 13:27:35,252 - BEGIN (implicit)
+2025-02-23 13:27:35,253 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:27:35,254 - [cached since 194s ago] {}
+2025-02-23 13:27:35,256 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:27:35,257 - [cached since 194s ago] {}
+2025-02-23 13:27:35,809 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:27:35,809 - [cached since 193.7s ago] {}
+2025-02-23 13:27:36,128 - ROLLBACK
+2025-02-23 13:27:36,130 - GET http://127.0.0.1:8000/api/initialise - 0.89 ms
+2025-02-23 13:27:36,134 - BEGIN (implicit)
+2025-02-23 13:27:36,135 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 13:27:36,136 - [cached since 194.9s ago] {}
+2025-02-23 13:27:36,139 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 13:27:36,139 - [cached since 194.8s ago] {}
+2025-02-23 13:27:36,593 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 13:27:36,594 - [cached since 194.5s ago] {}
+2025-02-23 13:27:37,129 - ROLLBACK
+2025-02-23 13:27:37,131 - GET http://127.0.0.1:8000/api/initialise - 1.00 ms
+2025-02-23 13:27:54,367 - ROLLBACK
+2025-02-23 13:27:54,368 - GET http://127.0.0.1:8000/api/top-roi/ - 19.91 ms
+2025-02-23 13:27:54,374 - BEGIN (implicit)
+2025-02-23 13:27:54,374 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:27:54,375 - [cached since 214.9s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 13:28:11,666 - ROLLBACK
+2025-02-23 13:28:11,667 - GET http://127.0.0.1:8000/api/top-roi/ - 17.30 ms
+2025-02-23 13:28:31,141 - BEGIN (implicit)
+2025-02-23 13:28:31,144 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:28:31,145 - [generated in 0.00074s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 102, 'param_3': 5}
+2025-02-23 13:28:31,669 - ROLLBACK
+2025-02-23 13:28:31,671 - GET http://127.0.0.1:8000/api/top-roi/?department=102&startDate=2012-01-29 - 0.53 ms
+2025-02-23 13:28:39,570 - BEGIN (implicit)
+2025-02-23 13:28:39,571 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 13:28:39,572 - [cached since 8.428s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 101, 'param_3': 5}
+2025-02-23 13:28:39,897 - ROLLBACK
+2025-02-23 13:28:39,897 - GET http://127.0.0.1:8000/api/top-roi/?department=101&startDate=2012-01-29 - 0.33 ms

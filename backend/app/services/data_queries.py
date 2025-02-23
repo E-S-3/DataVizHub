@@ -2,6 +2,18 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, case, desc, asc, and_
 from app.core.models import Ledger, Department, CostCenter, Fund
 
+############ API 0 ############ 
+def get_departments_and_ledger_dates(db: Session):
+    departments = db.query(Department.department_id, Department.department_name).all()
+    earliest_date = db.query(func.min(Ledger.general_ledger_date)).scalar()
+    latest_date = db.query(func.max(Ledger.general_ledger_date)).scalar()
+
+    return {
+        "departments": [{"id": dept.department_id, "name": dept.department_name} for dept in departments],
+        "earliest_date": earliest_date,
+        "latest_date": latest_date
+    }
+
 ############ API 1 ############ 
 def get_top_roi_departments(db: Session, start_date=None, end_date=None):
     query = db.query(
@@ -19,8 +31,13 @@ def get_top_roi_departments(db: Session, start_date=None, end_date=None):
         )).label("roi")
     ).join(Department, Ledger.department_id == Department.department_id)
     
+    # Apply filters based on available start_date and end_date
     if start_date and end_date:
         query = query.filter(Ledger.general_ledger_date.between(start_date, end_date))
+    elif start_date:
+        query = query.filter(Ledger.general_ledger_date >= start_date)
+    elif end_date:
+        query = query.filter(Ledger.general_ledger_date <= end_date)
     
     query = query.group_by(Department.department_name).order_by(func.sum(Ledger.amount).desc()).limit(5)
     return query.all()
@@ -43,8 +60,13 @@ def get_top_roi_cost_centers(db: Session, department_id, start_date=None, end_da
     
     query = query.filter(Ledger.department_id == department_id)
     
+    # Apply filters based on available start_date and end_date
     if start_date and end_date:
         query = query.filter(Ledger.general_ledger_date.between(start_date, end_date))
+    elif start_date:
+        query = query.filter(Ledger.general_ledger_date >= start_date)
+    elif end_date:
+        query = query.filter(Ledger.general_ledger_date <= end_date)
     
     query = query.group_by(CostCenter.cost_center_description).order_by(func.sum(Ledger.amount).desc()).limit(5)
     return query.all()
