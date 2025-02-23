@@ -3381,3 +3381,992 @@ WHERE ledger.general_ledger_date BETWEEN %(general_ledger_date_1)s AND %(general
 2025-02-23 18:14:45,896 - ROLLBACK
 2025-02-23 18:14:45,898 - GET http://127.0.0.1:8000/api/top-roi/?start_date=2020-01-01&end_date=2020-07-16 - 3.69 ms
 2025-02-23 18:14:45,901 - GET http://127.0.0.1:8000/api/top-budget/?start_date=2020-01-01&end_date=2020-07-16 - 3.69 ms
+2025-02-23 18:22:09,837 - GET http://127.0.0.1:8000/docs - 0.00 ms
+2025-02-23 18:22:10,059 - GET http://127.0.0.1:8000/openapi.json - 0.02 ms
+2025-02-23 18:22:15,974 - SELECT DATABASE()
+2025-02-23 18:22:15,974 - [raw sql] {}
+2025-02-23 18:22:15,975 - SELECT @@sql_mode
+2025-02-23 18:22:15,976 - [raw sql] {}
+2025-02-23 18:22:15,976 - SELECT @@lower_case_table_names
+2025-02-23 18:22:15,978 - [raw sql] {}
+2025-02-23 18:22:15,979 - BEGIN (implicit)
+2025-02-23 18:22:15,995 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 18:22:15,995 - [generated in 0.00085s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 18:22:17,221 - ROLLBACK
+2025-02-23 18:22:17,222 - GET http://127.0.0.1:8000/api/top-roi/ - 1.30 ms
+2025-02-23 19:14:46,888 - GET http://127.0.0.1:8000/docs - 0.00 ms
+2025-02-23 19:14:47,233 - GET http://127.0.0.1:8000/openapi.json - 0.03 ms
+2025-02-23 19:15:37,198 - SELECT DATABASE()
+2025-02-23 19:15:37,198 - [raw sql] {}
+2025-02-23 19:15:37,200 - SELECT @@sql_mode
+2025-02-23 19:15:37,201 - [raw sql] {}
+2025-02-23 19:15:37,201 - SELECT @@lower_case_table_names
+2025-02-23 19:15:37,202 - [raw sql] {}
+2025-02-23 19:15:37,205 - BEGIN (implicit)
+2025-02-23 19:15:37,221 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 19:15:37,222 - [generated in 0.00069s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 19:15:46,837 - ROLLBACK
+2025-02-23 19:15:46,838 - GET http://127.0.0.1:8000/api/fund-table/ - 9.65 ms
+2025-02-23 19:15:52,632 - BEGIN (implicit)
+2025-02-23 19:15:52,633 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 19:15:52,633 - [cached since 15.41s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 19:16:03,439 - ROLLBACK
+2025-02-23 19:16:03,440 - GET http://127.0.0.1:8000/api/fund-table/ - 10.81 ms
+2025-02-23 19:18:13,596 - BEGIN (implicit)
+2025-02-23 19:18:13,597 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 19:18:13,597 - [cached since 156.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 19:18:25,015 - ROLLBACK
+2025-02-23 19:18:25,016 - GET http://127.0.0.1:8000/api/fund-table/ - 11.42 ms
+2025-02-23 19:59:25,363 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 19:59:25,555 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:00:44,082 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:00:44,213 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:01:44,570 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:01:44,664 - GET http://127.0.0.1:8000/api/initialise/ - 0.01 ms
+2025-02-23 20:01:44,698 - SELECT DATABASE()
+2025-02-23 20:01:44,698 - [raw sql] {}
+2025-02-23 20:01:44,700 - SELECT @@sql_mode
+2025-02-23 20:01:44,701 - [raw sql] {}
+2025-02-23 20:01:44,702 - SELECT @@lower_case_table_names
+2025-02-23 20:01:44,702 - [raw sql] {}
+2025-02-23 20:01:44,708 - BEGIN (implicit)
+2025-02-23 20:01:44,708 - BEGIN (implicit)
+2025-02-23 20:01:44,724 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:01:44,731 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:01:44,731 - BEGIN (implicit)
+2025-02-23 20:01:44,731 - [generated in 0.00866s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:01:44,731 - BEGIN (implicit)
+2025-02-23 20:01:44,731 - [generated in 0.00158s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:01:44,731 - BEGIN (implicit)
+2025-02-23 20:01:44,735 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:01:44,743 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:01:44,747 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:01:44,748 - [generated in 0.01215s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:01:44,749 - [generated in 0.00550s] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:01:44,749 - [generated in 0.00215s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:01:45,382 - BEGIN (implicit)
+2025-02-23 20:01:45,383 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:01:45,384 - [generated in 0.00091s] {}
+2025-02-23 20:01:45,390 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:01:45,392 - [generated in 0.00131s] {}
+2025-02-23 20:01:45,396 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:01:45,397 - [generated in 0.00076s] {}
+2025-02-23 20:01:45,400 - ROLLBACK
+2025-02-23 20:01:45,401 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:01:45,421 - BEGIN (implicit)
+2025-02-23 20:01:45,423 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:01:45,424 - [cached since 0.0408s ago] {}
+2025-02-23 20:01:45,430 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:01:45,432 - [cached since 0.04192s ago] {}
+2025-02-23 20:01:45,435 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:01:45,436 - [cached since 0.04019s ago] {}
+2025-02-23 20:01:45,440 - ROLLBACK
+2025-02-23 20:01:45,445 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:01:46,964 - ROLLBACK
+2025-02-23 20:01:46,964 - ROLLBACK
+2025-02-23 20:01:46,964 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.32 ms
+2025-02-23 20:01:46,967 - GET http://127.0.0.1:8000/api/net-profit/ - 2.32 ms
+2025-02-23 20:01:46,974 - BEGIN (implicit)
+2025-02-23 20:01:46,975 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:01:46,977 - BEGIN (implicit)
+2025-02-23 20:01:46,977 - [cached since 2.231s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:01:46,978 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:01:46,979 - [cached since 2.244s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:01:48,235 - ROLLBACK
+2025-02-23 20:01:48,236 - GET http://127.0.0.1:8000/api/top-roi/ - 3.60 ms
+2025-02-23 20:01:48,241 - BEGIN (implicit)
+2025-02-23 20:01:48,244 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:01:48,244 - [cached since 3.521s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:01:48,361 - ROLLBACK
+2025-02-23 20:01:48,363 - GET http://127.0.0.1:8000/api/top-budget/ - 3.72 ms
+2025-02-23 20:01:48,369 - BEGIN (implicit)
+2025-02-23 20:01:48,370 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:01:48,371 - [cached since 3.629s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:01:48,753 - ROLLBACK
+2025-02-23 20:01:48,755 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 1.79 ms
+2025-02-23 20:01:48,761 - ROLLBACK
+2025-02-23 20:01:48,764 - GET http://127.0.0.1:8000/api/net-profit/ - 1.79 ms
+2025-02-23 20:01:51,004 - ROLLBACK
+2025-02-23 20:01:51,005 - GET http://127.0.0.1:8000/api/top-roi/ - 2.77 ms
+2025-02-23 20:01:51,062 - ROLLBACK
+2025-02-23 20:01:51,064 - GET http://127.0.0.1:8000/api/top-budget/ - 2.70 ms
+2025-02-23 20:01:58,495 - ROLLBACK
+2025-02-23 20:01:58,497 - GET http://127.0.0.1:8000/api/fund-table/ - 13.85 ms
+2025-02-23 20:01:58,504 - BEGIN (implicit)
+2025-02-23 20:01:58,505 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:01:58,505 - [cached since 13.77s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:02:22,538 - ROLLBACK
+2025-02-23 20:02:22,540 - GET http://127.0.0.1:8000/api/fund-table/ - 24.04 ms
+2025-02-23 20:03:42,834 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:03:42,994 - BEGIN (implicit)
+2025-02-23 20:03:42,996 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:42,998 - BEGIN (implicit)
+2025-02-23 20:03:42,998 - [cached since 118.3s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:03:43,001 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:43,011 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:03:43,006 - BEGIN (implicit)
+2025-02-23 20:03:43,009 - BEGIN (implicit)
+2025-02-23 20:03:43,010 - [cached since 118.3s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:03:43,013 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:43,014 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:43,020 - [cached since 118.3s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:43,020 - [cached since 118.3s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:44,199 - BEGIN (implicit)
+2025-02-23 20:03:44,199 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:03:44,199 - [cached since 118.8s ago] {}
+2025-02-23 20:03:44,203 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:03:44,204 - [cached since 118.8s ago] {}
+2025-02-23 20:03:44,209 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:03:44,210 - [cached since 118.8s ago] {}
+2025-02-23 20:03:44,222 - ROLLBACK
+2025-02-23 20:03:44,224 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:03:44,232 - BEGIN (implicit)
+2025-02-23 20:03:44,233 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:03:44,234 - [cached since 118.9s ago] {}
+2025-02-23 20:03:44,236 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:03:44,237 - [cached since 118.8s ago] {}
+2025-02-23 20:03:44,239 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:03:44,239 - [cached since 118.8s ago] {}
+2025-02-23 20:03:44,246 - ROLLBACK
+2025-02-23 20:03:44,248 - GET http://127.0.0.1:8000/api/initialise - 0.02 ms
+2025-02-23 20:03:45,648 - ROLLBACK
+2025-02-23 20:03:45,652 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.66 ms
+2025-02-23 20:03:45,664 - BEGIN (implicit)
+2025-02-23 20:03:45,666 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:45,666 - [cached since 120.9s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:45,670 - ROLLBACK
+2025-02-23 20:03:45,674 - GET http://127.0.0.1:8000/api/net-profit/ - 2.68 ms
+2025-02-23 20:03:45,684 - BEGIN (implicit)
+2025-02-23 20:03:45,684 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:45,685 - [cached since 120.9s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:46,695 - ROLLBACK
+2025-02-23 20:03:46,697 - GET http://127.0.0.1:8000/api/top-roi/ - 3.71 ms
+2025-02-23 20:03:46,703 - BEGIN (implicit)
+2025-02-23 20:03:46,704 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:46,704 - [cached since 122s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:03:46,828 - ROLLBACK
+2025-02-23 20:03:46,830 - GET http://127.0.0.1:8000/api/top-budget/ - 3.84 ms
+2025-02-23 20:03:46,836 - BEGIN (implicit)
+2025-02-23 20:03:46,838 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:46,839 - [cached since 122.1s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:03:47,512 - ROLLBACK
+2025-02-23 20:03:47,514 - ROLLBACK
+2025-02-23 20:03:47,516 - GET http://127.0.0.1:8000/api/net-profit/ - 1.84 ms
+2025-02-23 20:03:47,518 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 1.86 ms
+2025-02-23 20:03:49,572 - ROLLBACK
+2025-02-23 20:03:49,574 - GET http://127.0.0.1:8000/api/top-roi/ - 2.87 ms
+2025-02-23 20:03:49,681 - ROLLBACK
+2025-02-23 20:03:49,683 - GET http://127.0.0.1:8000/api/top-budget/ - 2.85 ms
+2025-02-23 20:03:51,544 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:03:51,696 - BEGIN (implicit)
+2025-02-23 20:03:51,699 - BEGIN (implicit)
+2025-02-23 20:03:51,706 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:03:51,700 - BEGIN (implicit)
+2025-02-23 20:03:51,702 - BEGIN (implicit)
+2025-02-23 20:03:51,705 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:51,708 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:51,710 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:51,713 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:51,714 - [cached since 127s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:03:51,714 - [cached since 127s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:03:51,714 - [cached since 127s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:51,717 - [cached since 127s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:52,428 - BEGIN (implicit)
+2025-02-23 20:03:52,429 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:03:52,430 - [cached since 127s ago] {}
+2025-02-23 20:03:52,433 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:03:52,434 - [cached since 127s ago] {}
+2025-02-23 20:03:52,436 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:03:52,437 - [cached since 127s ago] {}
+2025-02-23 20:03:52,441 - ROLLBACK
+2025-02-23 20:03:52,444 - GET http://127.0.0.1:8000/api/initialise - 0.02 ms
+2025-02-23 20:03:52,459 - BEGIN (implicit)
+2025-02-23 20:03:52,460 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:03:52,461 - [cached since 127.1s ago] {}
+2025-02-23 20:03:52,464 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:03:52,465 - [cached since 127.1s ago] {}
+2025-02-23 20:03:52,494 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:03:52,495 - [cached since 127.1s ago] {}
+2025-02-23 20:03:52,498 - ROLLBACK
+2025-02-23 20:03:52,500 - GET http://127.0.0.1:8000/api/initialise - 0.04 ms
+2025-02-23 20:03:54,191 - ROLLBACK
+2025-02-23 20:03:54,194 - GET http://127.0.0.1:8000/api/net-profit/ - 2.51 ms
+2025-02-23 20:03:54,195 - ROLLBACK
+2025-02-23 20:03:54,199 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.52 ms
+2025-02-23 20:03:54,207 - BEGIN (implicit)
+2025-02-23 20:03:54,208 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:54,209 - BEGIN (implicit)
+2025-02-23 20:03:54,210 - [cached since 129.5s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:54,210 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:03:54,212 - [cached since 129.5s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:03:55,319 - ROLLBACK
+2025-02-23 20:03:55,321 - GET http://127.0.0.1:8000/api/top-roi/ - 3.64 ms
+2025-02-23 20:03:55,327 - BEGIN (implicit)
+2025-02-23 20:03:55,328 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:55,329 - [cached since 130.6s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:03:55,332 - ROLLBACK
+2025-02-23 20:03:55,333 - GET http://127.0.0.1:8000/api/top-budget/ - 3.65 ms
+2025-02-23 20:03:55,339 - BEGIN (implicit)
+2025-02-23 20:03:55,340 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:03:55,341 - [cached since 130.6s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:03:56,360 - ROLLBACK
+2025-02-23 20:03:56,363 - ROLLBACK
+2025-02-23 20:03:56,364 - GET http://127.0.0.1:8000/api/net-profit/ - 2.16 ms
+2025-02-23 20:03:56,367 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.16 ms
+2025-02-23 20:03:58,521 - ROLLBACK
+2025-02-23 20:03:58,524 - GET http://127.0.0.1:8000/api/top-roi/ - 3.20 ms
+2025-02-23 20:03:58,551 - ROLLBACK
+2025-02-23 20:03:58,553 - GET http://127.0.0.1:8000/api/top-budget/ - 3.22 ms
+2025-02-23 20:04:02,211 - BEGIN (implicit)
+2025-02-23 20:04:02,213 - BEGIN (implicit)
+2025-02-23 20:04:02,216 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:04:02,218 - BEGIN (implicit)
+2025-02-23 20:04:02,223 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:04:02,225 - BEGIN (implicit)
+2025-02-23 20:04:02,225 - [generated in 0.00941s] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'department_id_1': 102, 'param_3': 10}
+2025-02-23 20:04:02,227 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:04:02,228 - [generated in 0.00575s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'department_id_1': 102}
+2025-02-23 20:04:02,232 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:04:02,235 - [generated in 0.00300s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'department_id_1': 102}
+2025-02-23 20:04:02,233 - [generated in 0.00539s] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 102, 'param_3': 5}
+2025-02-23 20:04:02,338 - ROLLBACK
+2025-02-23 20:04:02,342 - ROLLBACK
+2025-02-23 20:04:02,347 - GET http://127.0.0.1:8000/api/revenue-expenses/?department=102 - 0.14 ms
+2025-02-23 20:04:02,348 - GET http://127.0.0.1:8000/api/net-profit/?department=102 - 0.14 ms
+2025-02-23 20:04:03,073 - ROLLBACK
+2025-02-23 20:04:03,073 - ROLLBACK
+2025-02-23 20:04:03,075 - GET http://127.0.0.1:8000/api/top-roi/?department=102 - 0.87 ms
+2025-02-23 20:04:03,076 - GET http://127.0.0.1:8000/api/top-budget/?department=102 - 0.88 ms
+2025-02-23 20:04:36,737 - BEGIN (implicit)
+2025-02-23 20:04:36,740 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:04:36,741 - [cached since 172s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:04:52,943 - ROLLBACK
+2025-02-23 20:04:52,945 - GET http://localhost:8000/api/fund-table/ - 16.21 ms
+2025-02-23 20:07:14,684 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:07:14,868 - BEGIN (implicit)
+2025-02-23 20:07:14,868 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:07:14,869 - [cached since 330.1s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:07:14,885 - BEGIN (implicit)
+2025-02-23 20:07:14,887 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:07:14,889 - BEGIN (implicit)
+2025-02-23 20:07:14,889 - [cached since 330.1s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:07:14,898 - GET http://127.0.0.1:8000/api/initialise/ - 0.01 ms
+2025-02-23 20:07:14,892 - BEGIN (implicit)
+2025-02-23 20:07:14,893 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:07:14,900 - BEGIN (implicit)
+2025-02-23 20:07:14,901 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:07:14,901 - [cached since 330.2s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:07:14,904 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:07:14,904 - [cached since 330.2s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:07:14,907 - [cached since 330.2s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:07:17,079 - BEGIN (implicit)
+2025-02-23 20:07:17,080 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:07:17,080 - [cached since 331.7s ago] {}
+2025-02-23 20:07:17,084 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:07:17,084 - [cached since 331.7s ago] {}
+2025-02-23 20:07:17,087 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:07:17,088 - [cached since 331.7s ago] {}
+2025-02-23 20:07:17,098 - ROLLBACK
+2025-02-23 20:07:17,105 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:07:17,122 - ROLLBACK
+2025-02-23 20:07:17,125 - GET http://127.0.0.1:8000/api/net-profit/ - 2.25 ms
+2025-02-23 20:07:17,130 - BEGIN (implicit)
+2025-02-23 20:07:17,131 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:07:17,132 - [cached since 331.7s ago] {}
+2025-02-23 20:07:17,136 - ROLLBACK
+2025-02-23 20:07:17,138 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:07:17,141 - BEGIN (implicit)
+2025-02-23 20:07:17,141 - [cached since 331.8s ago] {}
+2025-02-23 20:07:17,144 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.27 ms
+2025-02-23 20:07:17,144 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:07:17,145 - [cached since 332.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:07:17,147 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:07:17,148 - [cached since 331.8s ago] {}
+2025-02-23 20:07:17,154 - ROLLBACK
+2025-02-23 20:07:17,157 - BEGIN (implicit)
+2025-02-23 20:07:17,158 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:07:17,159 - [cached since 332.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:07:17,160 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:07:18,470 - ROLLBACK
+2025-02-23 20:07:18,472 - GET http://127.0.0.1:8000/api/top-roi/ - 3.61 ms
+2025-02-23 20:07:18,478 - BEGIN (implicit)
+2025-02-23 20:07:18,479 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:07:18,483 - [cached since 333.8s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:07:18,855 - ROLLBACK
+2025-02-23 20:07:18,857 - GET http://127.0.0.1:8000/api/top-budget/ - 3.99 ms
+2025-02-23 20:07:18,863 - BEGIN (implicit)
+2025-02-23 20:07:18,864 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:07:18,865 - [cached since 334.1s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:07:19,240 - ROLLBACK
+2025-02-23 20:07:19,240 - ROLLBACK
+2025-02-23 20:07:19,243 - GET http://127.0.0.1:8000/api/net-profit/ - 2.11 ms
+2025-02-23 20:07:19,244 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.09 ms
+2025-02-23 20:07:21,070 - ROLLBACK
+2025-02-23 20:07:21,072 - GET http://127.0.0.1:8000/api/top-roi/ - 2.60 ms
+2025-02-23 20:07:21,452 - ROLLBACK
+2025-02-23 20:07:21,453 - GET http://127.0.0.1:8000/api/top-budget/ - 2.59 ms
+2025-02-23 20:07:30,447 - ROLLBACK
+2025-02-23 20:07:30,449 - GET http://127.0.0.1:8000/api/fund-table/ - 15.57 ms
+2025-02-23 20:07:30,457 - BEGIN (implicit)
+2025-02-23 20:07:30,458 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:07:30,459 - [cached since 345.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:07:46,110 - ROLLBACK
+2025-02-23 20:07:46,111 - GET http://127.0.0.1:8000/api/fund-table/ - 15.66 ms
+2025-02-23 20:12:22,051 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:12:22,212 - BEGIN (implicit)
+2025-02-23 20:12:22,214 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:12:22,215 - [cached since 637.5s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:12:22,232 - BEGIN (implicit)
+2025-02-23 20:12:22,235 - BEGIN (implicit)
+2025-02-23 20:12:22,243 - GET http://127.0.0.1:8000/api/initialise/ - 0.01 ms
+2025-02-23 20:12:22,239 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:12:22,241 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:22,243 - BEGIN (implicit)
+2025-02-23 20:12:22,245 - BEGIN (implicit)
+2025-02-23 20:12:22,245 - [cached since 637.5s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:12:22,247 - [cached since 637.5s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:22,249 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:12:22,251 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:22,258 - [cached since 637.5s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:12:22,259 - [cached since 637.5s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:23,400 - BEGIN (implicit)
+2025-02-23 20:12:23,402 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:12:23,402 - [cached since 638s ago] {}
+2025-02-23 20:12:23,409 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:12:23,410 - [cached since 638s ago] {}
+2025-02-23 20:12:23,427 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:12:23,428 - [cached since 638s ago] {}
+2025-02-23 20:12:23,445 - ROLLBACK
+2025-02-23 20:12:23,454 - GET http://127.0.0.1:8000/api/initialise - 0.09 ms
+2025-02-23 20:12:23,481 - BEGIN (implicit)
+2025-02-23 20:12:23,482 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:12:23,484 - [cached since 638.1s ago] {}
+2025-02-23 20:12:23,496 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:12:23,497 - [cached since 638.1s ago] {}
+2025-02-23 20:12:23,499 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:12:23,500 - [cached since 638.1s ago] {}
+2025-02-23 20:12:23,514 - ROLLBACK
+2025-02-23 20:12:23,515 - GET http://127.0.0.1:8000/api/initialise - 0.04 ms
+2025-02-23 20:12:24,735 - ROLLBACK
+2025-02-23 20:12:24,737 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.52 ms
+2025-02-23 20:12:24,746 - BEGIN (implicit)
+2025-02-23 20:12:24,747 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:24,748 - [cached since 640s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:24,809 - ROLLBACK
+2025-02-23 20:12:24,810 - GET http://127.0.0.1:8000/api/net-profit/ - 2.58 ms
+2025-02-23 20:12:24,819 - BEGIN (implicit)
+2025-02-23 20:12:24,820 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:24,821 - [cached since 640.1s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:26,287 - ROLLBACK
+2025-02-23 20:12:26,290 - GET http://127.0.0.1:8000/api/top-roi/ - 4.08 ms
+2025-02-23 20:12:26,296 - BEGIN (implicit)
+2025-02-23 20:12:26,298 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:12:26,301 - [cached since 641.6s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:12:26,540 - ROLLBACK
+2025-02-23 20:12:26,544 - GET http://127.0.0.1:8000/api/top-budget/ - 4.33 ms
+2025-02-23 20:12:26,552 - BEGIN (implicit)
+2025-02-23 20:12:26,554 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:12:26,554 - [cached since 641.8s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:12:26,866 - ROLLBACK
+2025-02-23 20:12:26,868 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.13 ms
+2025-02-23 20:12:26,893 - ROLLBACK
+2025-02-23 20:12:26,895 - GET http://127.0.0.1:8000/api/net-profit/ - 2.08 ms
+2025-02-23 20:12:27,862 - ROLLBACK
+2025-02-23 20:12:27,864 - GET http://127.0.0.1:8000/api/fund-table/ - 5.64 ms
+2025-02-23 20:12:27,870 - BEGIN (implicit)
+2025-02-23 20:12:27,871 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:12:27,873 - [cached since 643.1s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:12:29,435 - ROLLBACK
+2025-02-23 20:12:29,437 - GET http://127.0.0.1:8000/api/top-roi/ - 3.14 ms
+2025-02-23 20:12:29,847 - ROLLBACK
+2025-02-23 20:12:29,848 - GET http://127.0.0.1:8000/api/top-budget/ - 3.30 ms
+2025-02-23 20:12:31,848 - ROLLBACK
+2025-02-23 20:12:31,851 - GET http://127.0.0.1:8000/api/fund-table/ - 3.98 ms
+2025-02-23 20:12:41,637 - BEGIN (implicit)
+2025-02-23 20:12:41,639 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:12:41,639 - [cached since 656.9s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:12:44,196 - ROLLBACK
+2025-02-23 20:12:44,197 - GET http://localhost:8000/api/fund-table/ - 2.56 ms
+2025-02-23 20:12:56,160 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:12:56,349 - BEGIN (implicit)
+2025-02-23 20:12:56,355 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:12:56,358 - [cached since 671.6s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:12:56,377 - BEGIN (implicit)
+2025-02-23 20:12:56,380 - GET http://127.0.0.1:8000/api/initialise/ - 0.01 ms
+2025-02-23 20:12:56,380 - BEGIN (implicit)
+2025-02-23 20:12:56,382 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:12:56,383 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:56,385 - [cached since 671.6s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:12:56,387 - [cached since 671.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:56,391 - BEGIN (implicit)
+2025-02-23 20:12:56,394 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:56,399 - BEGIN (implicit)
+2025-02-23 20:12:56,401 - [cached since 671.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:56,406 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:12:56,407 - [cached since 671.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:12:57,249 - BEGIN (implicit)
+2025-02-23 20:12:57,249 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:12:57,250 - [cached since 671.9s ago] {}
+2025-02-23 20:12:57,254 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:12:57,255 - [cached since 671.9s ago] {}
+2025-02-23 20:12:57,262 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:12:57,275 - [cached since 671.9s ago] {}
+2025-02-23 20:12:57,280 - ROLLBACK
+2025-02-23 20:12:57,283 - GET http://127.0.0.1:8000/api/initialise - 0.06 ms
+2025-02-23 20:12:57,312 - BEGIN (implicit)
+2025-02-23 20:12:57,313 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:12:57,313 - [cached since 671.9s ago] {}
+2025-02-23 20:12:57,331 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:12:57,332 - [cached since 671.9s ago] {}
+2025-02-23 20:12:57,335 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:12:57,337 - [cached since 671.9s ago] {}
+2025-02-23 20:12:57,340 - ROLLBACK
+2025-02-23 20:12:57,342 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:12:59,086 - ROLLBACK
+2025-02-23 20:12:59,088 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.73 ms
+2025-02-23 20:12:59,097 - BEGIN (implicit)
+2025-02-23 20:12:59,098 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:59,099 - [cached since 674.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:12:59,116 - ROLLBACK
+2025-02-23 20:12:59,120 - GET http://127.0.0.1:8000/api/net-profit/ - 2.76 ms
+2025-02-23 20:12:59,127 - BEGIN (implicit)
+2025-02-23 20:12:59,128 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:12:59,129 - [cached since 674.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:13:00,501 - ROLLBACK
+2025-02-23 20:13:00,503 - GET http://127.0.0.1:8000/api/top-roi/ - 4.16 ms
+2025-02-23 20:13:00,508 - BEGIN (implicit)
+2025-02-23 20:13:00,510 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:00,510 - [cached since 675.8s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:13:00,813 - ROLLBACK
+2025-02-23 20:13:00,817 - GET http://127.0.0.1:8000/api/top-budget/ - 4.46 ms
+2025-02-23 20:13:00,867 - BEGIN (implicit)
+2025-02-23 20:13:00,893 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:00,898 - [cached since 676.2s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:13:01,348 - ROLLBACK
+2025-02-23 20:13:01,350 - ROLLBACK
+2025-02-23 20:13:01,351 - GET http://127.0.0.1:8000/api/net-profit/ - 2.23 ms
+2025-02-23 20:13:01,361 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.27 ms
+2025-02-23 20:13:02,555 - ROLLBACK
+2025-02-23 20:13:02,557 - GET http://127.0.0.1:8000/api/fund-table/ - 6.19 ms
+2025-02-23 20:13:02,564 - BEGIN (implicit)
+2025-02-23 20:13:02,566 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:13:02,567 - [cached since 677.8s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:13:03,955 - ROLLBACK
+2025-02-23 20:13:03,956 - GET http://127.0.0.1:8000/api/top-roi/ - 3.45 ms
+2025-02-23 20:13:04,306 - ROLLBACK
+2025-02-23 20:13:04,307 - GET http://127.0.0.1:8000/api/top-budget/ - 3.45 ms
+2025-02-23 20:13:06,288 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:13:06,376 - ROLLBACK
+2025-02-23 20:13:06,379 - GET http://127.0.0.1:8000/api/fund-table/ - 3.82 ms
+2025-02-23 20:13:06,431 - BEGIN (implicit)
+2025-02-23 20:13:06,435 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:06,437 - [cached since 681.7s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:13:06,440 - BEGIN (implicit)
+2025-02-23 20:13:06,442 - BEGIN (implicit)
+2025-02-23 20:13:06,443 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:06,445 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:13:06,446 - [cached since 681.7s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:13:06,453 - GET http://127.0.0.1:8000/api/initialise/ - 0.01 ms
+2025-02-23 20:13:06,447 - [cached since 681.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:13:06,451 - BEGIN (implicit)
+2025-02-23 20:13:06,453 - BEGIN (implicit)
+2025-02-23 20:13:06,458 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:13:06,460 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:13:06,460 - [cached since 681.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:13:06,460 - [cached since 681.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:13:07,189 - BEGIN (implicit)
+2025-02-23 20:13:07,190 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:13:07,191 - [cached since 681.8s ago] {}
+2025-02-23 20:13:07,193 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:13:07,194 - [cached since 681.8s ago] {}
+2025-02-23 20:13:07,196 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:13:07,196 - [cached since 681.8s ago] {}
+2025-02-23 20:13:07,213 - ROLLBACK
+2025-02-23 20:13:07,215 - GET http://127.0.0.1:8000/api/initialise - 0.03 ms
+2025-02-23 20:13:07,224 - BEGIN (implicit)
+2025-02-23 20:13:07,224 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:13:07,225 - [cached since 681.8s ago] {}
+2025-02-23 20:13:07,227 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:13:07,228 - [cached since 681.8s ago] {}
+2025-02-23 20:13:07,231 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:13:07,231 - [cached since 681.8s ago] {}
+2025-02-23 20:13:07,235 - ROLLBACK
+2025-02-23 20:13:07,239 - GET http://127.0.0.1:8000/api/initialise - 0.02 ms
+2025-02-23 20:13:08,759 - ROLLBACK
+2025-02-23 20:13:08,764 - GET http://127.0.0.1:8000/api/net-profit/ - 2.33 ms
+2025-02-23 20:13:08,771 - BEGIN (implicit)
+2025-02-23 20:13:08,772 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:13:08,773 - [cached since 684s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:13:08,899 - ROLLBACK
+2025-02-23 20:13:08,901 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.48 ms
+2025-02-23 20:13:08,909 - BEGIN (implicit)
+2025-02-23 20:13:08,910 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:13:08,911 - [cached since 684.2s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:13:10,068 - ROLLBACK
+2025-02-23 20:13:10,069 - GET http://127.0.0.1:8000/api/top-roi/ - 3.65 ms
+2025-02-23 20:13:10,075 - BEGIN (implicit)
+2025-02-23 20:13:10,077 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:10,077 - [cached since 685.4s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:13:10,476 - ROLLBACK
+2025-02-23 20:13:10,478 - GET http://127.0.0.1:8000/api/top-budget/ - 4.05 ms
+2025-02-23 20:13:10,487 - BEGIN (implicit)
+2025-02-23 20:13:10,489 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:10,490 - [cached since 685.7s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:13:10,751 - ROLLBACK
+2025-02-23 20:13:10,753 - GET http://127.0.0.1:8000/api/net-profit/ - 1.98 ms
+2025-02-23 20:13:10,770 - ROLLBACK
+2025-02-23 20:13:10,772 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 1.87 ms
+2025-02-23 20:13:11,409 - ROLLBACK
+2025-02-23 20:13:11,412 - GET http://127.0.0.1:8000/api/fund-table/ - 4.98 ms
+2025-02-23 20:13:11,417 - BEGIN (implicit)
+2025-02-23 20:13:11,418 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:13:11,419 - [cached since 686.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:13:13,037 - ROLLBACK
+2025-02-23 20:13:13,039 - GET http://127.0.0.1:8000/api/top-roi/ - 2.97 ms
+2025-02-23 20:13:13,672 - ROLLBACK
+2025-02-23 20:13:13,674 - GET http://127.0.0.1:8000/api/top-budget/ - 3.19 ms
+2025-02-23 20:13:15,321 - ROLLBACK
+2025-02-23 20:13:15,324 - GET http://127.0.0.1:8000/api/fund-table/ - 3.91 ms
+2025-02-23 20:13:21,080 - BEGIN (implicit)
+2025-02-23 20:13:21,080 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:13:21,081 - [cached since 695.7s ago] {}
+2025-02-23 20:13:21,098 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:13:21,098 - [cached since 695.7s ago] {}
+2025-02-23 20:13:21,151 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:13:21,152 - [cached since 695.8s ago] {}
+2025-02-23 20:13:21,199 - ROLLBACK
+2025-02-23 20:13:21,201 - GET http://localhost:8000/api/initialise - 0.12 ms
+2025-02-23 20:13:30,987 - BEGIN (implicit)
+2025-02-23 20:13:30,989 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:30,990 - [cached since 706.3s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:13:33,233 - ROLLBACK
+2025-02-23 20:13:33,234 - GET http://localhost:8000/api/top-roi/ - 2.25 ms
+2025-02-23 20:13:43,075 - BEGIN (implicit)
+2025-02-23 20:13:43,077 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:13:43,078 - [cached since 718.3s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:13:45,402 - ROLLBACK
+2025-02-23 20:13:45,404 - GET http://localhost:8000/api/top-budget/ - 2.33 ms
+2025-02-23 20:13:55,149 - BEGIN (implicit)
+2025-02-23 20:13:55,151 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:13:55,152 - [cached since 730.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:13:56,400 - ROLLBACK
+2025-02-23 20:13:56,401 - GET http://localhost:8000/api/revenue-expenses/ - 1.25 ms
+2025-02-23 20:14:03,838 - BEGIN (implicit)
+2025-02-23 20:14:03,840 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:14:03,841 - [cached since 739.1s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:14:06,943 - ROLLBACK
+2025-02-23 20:14:06,944 - GET http://localhost:8000/api/fund-table/ - 3.11 ms
+2025-02-23 20:14:17,446 - BEGIN (implicit)
+2025-02-23 20:14:17,447 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:14:17,448 - [cached since 752.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:14:18,673 - ROLLBACK
+2025-02-23 20:14:18,675 - GET http://localhost:8000/api/net-profit/ - 1.23 ms
+2025-02-23 20:15:47,938 - BEGIN (implicit)
+2025-02-23 20:15:47,939 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:15:47,939 - [cached since 843.2s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:15:51,570 - ROLLBACK
+2025-02-23 20:15:51,572 - GET http://localhost:8000/api/fund-table/ - 3.64 ms
+2025-02-23 20:15:55,462 - BEGIN (implicit)
+2025-02-23 20:15:55,465 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:15:55,466 - [cached since 850.7s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:15:58,859 - ROLLBACK
+2025-02-23 20:15:58,861 - GET http://localhost:8000/api/fund-table/ - 3.40 ms
+2025-02-23 20:16:02,069 - BEGIN (implicit)
+2025-02-23 20:16:02,071 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:02,072 - [cached since 857.3s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:16:05,354 - ROLLBACK
+2025-02-23 20:16:05,355 - GET http://localhost:8000/api/fund-table/ - 3.30 ms
+2025-02-23 20:16:27,927 - GET http://127.0.0.1:8000/api/initialise/ - 0.00 ms
+2025-02-23 20:16:28,059 - BEGIN (implicit)
+2025-02-23 20:16:28,063 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:28,066 - [cached since 883.3s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:16:28,077 - BEGIN (implicit)
+2025-02-23 20:16:28,079 - GET http://127.0.0.1:8000/api/initialise/ - 0.01 ms
+2025-02-23 20:16:28,078 - BEGIN (implicit)
+2025-02-23 20:16:28,079 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:28,082 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:28,084 - [cached since 883.3s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:28,085 - [cached since 883.3s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:16:28,088 - BEGIN (implicit)
+2025-02-23 20:16:28,095 - BEGIN (implicit)
+2025-02-23 20:16:28,098 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:28,099 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:28,100 - [cached since 883.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:16:28,100 - [cached since 883.4s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:28,848 - BEGIN (implicit)
+2025-02-23 20:16:28,851 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:16:28,851 - [cached since 883.5s ago] {}
+2025-02-23 20:16:28,856 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:16:28,856 - [cached since 883.5s ago] {}
+2025-02-23 20:16:28,862 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:16:28,862 - [cached since 883.5s ago] {}
+2025-02-23 20:16:28,866 - ROLLBACK
+2025-02-23 20:16:28,868 - GET http://127.0.0.1:8000/api/initialise - 0.04 ms
+2025-02-23 20:16:28,885 - BEGIN (implicit)
+2025-02-23 20:16:28,886 - SELECT department.department_id AS department_department_id, department.department_name AS department_department_name 
+FROM department
+2025-02-23 20:16:28,886 - [cached since 883.5s ago] {}
+2025-02-23 20:16:28,892 - SELECT min(ledger.general_ledger_date) AS min_1 
+FROM ledger
+2025-02-23 20:16:28,893 - [cached since 883.5s ago] {}
+2025-02-23 20:16:28,907 - SELECT max(ledger.general_ledger_date) AS max_1 
+FROM ledger
+2025-02-23 20:16:28,908 - [cached since 883.5s ago] {}
+2025-02-23 20:16:28,915 - ROLLBACK
+2025-02-23 20:16:28,919 - GET http://127.0.0.1:8000/api/initialise - 0.04 ms
+2025-02-23 20:16:30,814 - ROLLBACK
+2025-02-23 20:16:30,816 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.75 ms
+2025-02-23 20:16:30,822 - BEGIN (implicit)
+2025-02-23 20:16:30,823 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:30,824 - [cached since 886.1s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:30,838 - ROLLBACK
+2025-02-23 20:16:30,843 - GET http://127.0.0.1:8000/api/net-profit/ - 2.78 ms
+2025-02-23 20:16:30,849 - BEGIN (implicit)
+2025-02-23 20:16:30,852 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:30,852 - [cached since 886.1s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:31,870 - ROLLBACK
+2025-02-23 20:16:31,871 - GET http://127.0.0.1:8000/api/top-roi/ - 3.82 ms
+2025-02-23 20:16:31,878 - BEGIN (implicit)
+2025-02-23 20:16:31,879 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:31,880 - [cached since 887.2s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:16:32,124 - ROLLBACK
+2025-02-23 20:16:32,126 - GET http://127.0.0.1:8000/api/top-budget/ - 4.06 ms
+2025-02-23 20:16:32,132 - BEGIN (implicit)
+2025-02-23 20:16:32,133 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:32,134 - [cached since 887.4s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:16:32,885 - ROLLBACK
+2025-02-23 20:16:32,887 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.07 ms
+2025-02-23 20:16:32,905 - ROLLBACK
+2025-02-23 20:16:32,907 - GET http://127.0.0.1:8000/api/net-profit/ - 2.06 ms
+2025-02-23 20:16:33,597 - ROLLBACK
+2025-02-23 20:16:33,599 - GET http://127.0.0.1:8000/api/fund-table/ - 5.53 ms
+2025-02-23 20:16:33,604 - BEGIN (implicit)
+2025-02-23 20:16:33,606 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:33,607 - [cached since 888.9s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:16:34,999 - ROLLBACK
+2025-02-23 20:16:35,000 - GET http://127.0.0.1:8000/api/top-roi/ - 3.13 ms
+2025-02-23 20:16:35,359 - ROLLBACK
+2025-02-23 20:16:35,361 - GET http://127.0.0.1:8000/api/top-budget/ - 3.23 ms
+2025-02-23 20:16:37,597 - ROLLBACK
+2025-02-23 20:16:37,598 - GET http://127.0.0.1:8000/api/fund-table/ - 4.00 ms
+2025-02-23 20:16:39,032 - BEGIN (implicit)
+2025-02-23 20:16:39,033 - BEGIN (implicit)
+2025-02-23 20:16:39,036 - BEGIN (implicit)
+2025-02-23 20:16:39,038 - BEGIN (implicit)
+2025-02-23 20:16:39,043 - BEGIN (implicit)
+2025-02-23 20:16:39,045 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:39,046 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:39,047 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:39,048 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:39,054 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:39,061 - [generated in 0.00658s] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0, 'department_id_1': 102}
+2025-02-23 20:16:39,054 - [cached since 756.8s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'department_id_1': 102}
+2025-02-23 20:16:39,059 - [cached since 756.8s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'department_id_1': 102, 'param_3': 10}
+2025-02-23 20:16:39,060 - [cached since 756.8s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'department_id_1': 102}
+2025-02-23 20:16:39,054 - [cached since 756.8s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 102, 'param_3': 5}
+2025-02-23 20:16:39,156 - ROLLBACK
+2025-02-23 20:16:39,161 - ROLLBACK
+2025-02-23 20:16:39,166 - GET http://127.0.0.1:8000/api/net-profit/?department=102 - 0.14 ms
+2025-02-23 20:16:39,168 - GET http://127.0.0.1:8000/api/revenue-expenses/?department=102 - 0.15 ms
+2025-02-23 20:16:39,235 - ROLLBACK
+2025-02-23 20:16:39,237 - GET http://127.0.0.1:8000/api/fund-table/?department=102 - 0.21 ms
+2025-02-23 20:16:39,834 - ROLLBACK
+2025-02-23 20:16:39,835 - ROLLBACK
+2025-02-23 20:16:39,837 - GET http://127.0.0.1:8000/api/top-roi/?department=102 - 0.82 ms
+2025-02-23 20:16:39,841 - GET http://127.0.0.1:8000/api/top-budget/?department=102 - 0.82 ms
+2025-02-23 20:16:43,318 - BEGIN (implicit)
+2025-02-23 20:16:43,318 - BEGIN (implicit)
+2025-02-23 20:16:43,319 - BEGIN (implicit)
+2025-02-23 20:16:43,321 - BEGIN (implicit)
+2025-02-23 20:16:43,323 - BEGIN (implicit)
+2025-02-23 20:16:43,324 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:43,325 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:43,327 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:43,328 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:43,329 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:43,329 - [cached since 898.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:43,330 - [cached since 898.6s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:16:43,330 - [cached since 898.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:16:43,331 - [cached since 898.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:43,332 - [cached since 898.6s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:16:45,512 - ROLLBACK
+2025-02-23 20:16:45,514 - GET http://127.0.0.1:8000/api/net-profit/ - 2.20 ms
+2025-02-23 20:16:45,539 - ROLLBACK
+2025-02-23 20:16:45,542 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.23 ms
+2025-02-23 20:16:46,520 - ROLLBACK
+2025-02-23 20:16:46,521 - GET http://127.0.0.1:8000/api/top-roi/ - 3.21 ms
+2025-02-23 20:16:46,648 - ROLLBACK
+2025-02-23 20:16:46,650 - GET http://127.0.0.1:8000/api/top-budget/ - 3.34 ms
+2025-02-23 20:16:47,372 - ROLLBACK
+2025-02-23 20:16:47,374 - GET http://127.0.0.1:8000/api/fund-table/ - 4.06 ms
+2025-02-23 20:16:51,378 - BEGIN (implicit)
+2025-02-23 20:16:51,380 - BEGIN (implicit)
+2025-02-23 20:16:51,383 - BEGIN (implicit)
+2025-02-23 20:16:51,385 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:51,386 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:51,395 - [cached since 769.2s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'department_id_1': 109}
+2025-02-23 20:16:51,392 - [cached since 769.2s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'department_id_1': 109}
+2025-02-23 20:16:51,391 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:51,401 - BEGIN (implicit)
+2025-02-23 20:16:51,403 - BEGIN (implicit)
+2025-02-23 20:16:51,408 - [cached since 12.35s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0, 'department_id_1': 109}
+2025-02-23 20:16:51,409 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:51,410 - SELECT cost_center.cost_center_description AS cost_center_cost_center_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN cost_center ON ledger.cost_center_id = cost_center.cost_center_id 
+WHERE ledger.department_id = %(department_id_1)s GROUP BY cost_center.cost_center_description ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:51,411 - [cached since 769.2s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'department_id_1': 109, 'param_3': 10}
+2025-02-23 20:16:51,412 - [cached since 769.2s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'department_id_1': 109, 'param_3': 5}
+2025-02-23 20:16:52,019 - ROLLBACK
+2025-02-23 20:16:52,025 - GET http://127.0.0.1:8000/api/fund-table/?department=109 - 0.66 ms
+2025-02-23 20:16:52,640 - ROLLBACK
+2025-02-23 20:16:52,640 - ROLLBACK
+2025-02-23 20:16:52,642 - GET http://127.0.0.1:8000/api/net-profit/?department=109 - 1.28 ms
+2025-02-23 20:16:52,643 - GET http://127.0.0.1:8000/api/revenue-expenses/?department=109 - 1.28 ms
+2025-02-23 20:16:54,493 - ROLLBACK
+2025-02-23 20:16:54,493 - ROLLBACK
+2025-02-23 20:16:54,494 - GET http://127.0.0.1:8000/api/top-budget/?department=109 - 3.12 ms
+2025-02-23 20:16:54,495 - GET http://127.0.0.1:8000/api/top-roi/?department=109 - 3.12 ms
+2025-02-23 20:16:59,302 - BEGIN (implicit)
+2025-02-23 20:16:59,307 - BEGIN (implicit)
+2025-02-23 20:16:59,309 - BEGIN (implicit)
+2025-02-23 20:16:59,318 - SELECT fund.fund_description AS fund_fund_description, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) / nullif(sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END), %(nullif_1)s) AS ratio, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN fund ON ledger.fund_id = fund.fund_id GROUP BY fund.fund_description ORDER BY roi DESC
+2025-02-23 20:16:59,321 - [cached since 914.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0, 'nullif_1': 0}
+2025-02-23 20:16:59,313 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s) THEN ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_2)s) THEN ledger.amount ELSE %(param_2)s END) AS roi 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(ledger.amount) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:59,317 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) AS total_revenue, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenses 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:59,327 - [cached since 914.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:16:59,312 - BEGIN (implicit)
+2025-02-23 20:16:59,316 - BEGIN (implicit)
+2025-02-23 20:16:59,325 - [cached since 914.6s ago] {'ledger_description_1': 'Revenues', 'param_1': 0, 'ledger_description_2': 'Expenses', 'param_2': 0, 'param_3': 5}
+2025-02-23 20:16:59,333 - SELECT department.department_name AS department_department_name, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) AS total_expenditure 
+FROM ledger INNER JOIN department ON ledger.department_id = department.department_id GROUP BY department.department_name ORDER BY sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount ELSE %(param_1)s END + CASE WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_2)s END) DESC 
+ LIMIT %(param_3)s
+2025-02-23 20:16:59,335 - SELECT year(ledger.general_ledger_date) AS time, sum(CASE WHEN (ledger.ledger_description = %(ledger_description_1)s AND ledger.amount > %(amount_1)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_2)s AND ledger.amount < %(amount_2)s) THEN -ledger.amount ELSE %(param_1)s END) - sum(CASE WHEN (ledger.ledger_description = %(ledger_description_3)s AND ledger.amount > %(amount_3)s) THEN ledger.amount WHEN (ledger.ledger_description = %(ledger_description_4)s AND ledger.amount < %(amount_4)s) THEN -ledger.amount ELSE %(param_2)s END) AS net_profit 
+FROM ledger GROUP BY year(ledger.general_ledger_date) ORDER BY year(ledger.general_ledger_date)
+2025-02-23 20:16:59,339 - [cached since 914.6s ago] {'ledger_description_1': 'Expenses', 'amount_1': 0, 'param_1': 0, 'ledger_description_2': 'Revenues', 'amount_2': 0, 'param_2': 0, 'param_3': 10}
+2025-02-23 20:16:59,351 - [cached since 914.6s ago] {'ledger_description_1': 'Revenues', 'amount_1': 0, 'ledger_description_2': 'Expenses', 'amount_2': 0, 'param_1': 0, 'ledger_description_3': 'Expenses', 'amount_3': 0, 'ledger_description_4': 'Revenues', 'amount_4': 0, 'param_2': 0}
+2025-02-23 20:17:01,892 - ROLLBACK
+2025-02-23 20:17:01,896 - GET http://127.0.0.1:8000/api/net-profit/ - 2.60 ms
+2025-02-23 20:17:01,924 - ROLLBACK
+2025-02-23 20:17:01,928 - GET http://127.0.0.1:8000/api/revenue-expenses/ - 2.63 ms
+2025-02-23 20:17:03,033 - ROLLBACK
+2025-02-23 20:17:03,034 - GET http://127.0.0.1:8000/api/top-roi/ - 3.74 ms
+2025-02-23 20:17:03,174 - ROLLBACK
+2025-02-23 20:17:03,175 - GET http://127.0.0.1:8000/api/top-budget/ - 3.88 ms
+2025-02-23 20:17:03,911 - ROLLBACK
+2025-02-23 20:17:03,912 - GET http://127.0.0.1:8000/api/fund-table/ - 4.62 ms

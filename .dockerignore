@@ -1,0 +1,7 @@
+.git
+__pycache__
+.vscode
+node_modules
+.env
+data_source_cleaning/
+frontend/
