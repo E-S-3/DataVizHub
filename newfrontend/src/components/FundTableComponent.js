@@ -1,6 +1,5 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Card, CardContent, Typography } from "@mui/material";
 
 const columns = [
   { field: "fund_description", headerName: "Fund Description", flex: 2 },
@@ -12,9 +11,6 @@ const columns = [
 
 const FundTableComponent = ({ data }) => {
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h6">Fund Table</Typography>
         <DataGrid
           rows={data.map((row, index) => ({ id: index, ...row }))} 
           columns={columns}
@@ -25,8 +21,6 @@ const FundTableComponent = ({ data }) => {
           }}
           disableRowSelectionOnClick 
         />
-      </CardContent>
-    </Card>
   );
 };
 

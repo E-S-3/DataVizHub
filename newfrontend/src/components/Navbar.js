@@ -47,7 +47,7 @@ const Navbar = ({ onFilterChange }) => {
         {isMobile ? (
             <>
             <Typography variant="h6" sx={{ color: "black", fontWeight: "bold" }}>
-            Dashboard Filters
+            DataVizHub
           </Typography>
           <IconButton onClick={() => setOpen(!open)}>
             <MenuIcon sx={{ color: "black" }} />
@@ -56,7 +56,7 @@ const Navbar = ({ onFilterChange }) => {
           
         ) : (
           <Typography variant="h6" sx={{ color: "black", fontWeight: "bold" }}>
-            Dashboard Filters
+            DataVizHub
           </Typography>
         )}
 

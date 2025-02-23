@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Box, Paper } from "@mui/material";
 import ReactApexChart from "react-apexcharts";
 import Navbar from "./components/Navbar";
 import { fetchPieChartData } from "./service/api1";
@@ -8,8 +8,6 @@ import { fetchLineChartData } from "./service/api3";
 import { fetchNetBarChartData } from "./service/api5";
 import { fetchFundTableData } from "./service/api4";
 import FundTableComponent from "./components/FundTableComponent";
-
-
 
 
 function App() {
@@ -69,126 +67,165 @@ function App() {
     xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"] },
   };
 
-  
-
   return (
     <>
-    <Navbar onFilterChange={handleFilterChange} />
-    <Box p={3} mt={10}>
-      <Grid container spacing={3} justifyContent="center" alignItems="center" >
-        <Grid item xs={12} md={6} lg={4}>
-          <Card sx={{
-              height: { xs: "auto", lg: "auto" }, // Auto height on small screens, fixed on large screens
-            }}>
-            <CardContent>
-              <Typography variant="h6">Task Distribution</Typography>
-              <ReactApexChart
-                options={{ 
-                  chart: { type: "pie" }, 
-                  legend: {
-                    position: 'bottom',
-                    onItemClick: { toggleDataSeries: true } // Allows clicking legend items to hide/show
-
-                  }, 
-                  labels: pieChartData.labels,
-                  states: {
-                    active: {
-                      filter: {
-                        type: "none", // Disable automatic highlighting
+      <Navbar onFilterChange={handleFilterChange} />
+      <Box p={3} mt={10} sx={{ minHeight: "100vh", backgroundColor: "#f5f5f5", display: "flex", flexDirection: "column" }}>
+        <Grid container spacing={3} sx={{ flexGrow: 1 }}>
+  
+          <Grid item xs={12}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', height: '100%', boxShadow: 3, borderRadius: 3 }}>
+              <CardContent sx={{ padding: 3 }}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "#333" }}>
+                  Department Budget Breakdown
+                </Typography>
+                <ReactApexChart
+                  options={{
+                    chart: {
+                      type: "bar",
+                      width: '100%',
+                    },
+                    xaxis: {
+                      categories: barChartData.labels,
+                      labels: {
+                        style: {
+                          fontSize: '10px',
+                        }
                       }
-                    }
-                  } 
-              }}
-                series={pieChartData.values}
-                type="pie"
-              />
-            </CardContent>
-          </Card>
+                    },
+                    legend: { position: "bottom" },
+                    dataLabels: { enabled: false },
+                    plotOptions: {
+                      bar: {
+                        horizontal: true,
+                      }
+                    },
+                    colors: ['#0000FF'],
+                    toolbar: {
+                      show: true, 
+                    },
+                  }}
+                  series={[{ name: "Bar Chart Data", data: barChartData.values }]}
+                  type="bar"
+                  height={350} 
+                  width="100%"
+                />
+              </CardContent>
+            </Paper>
+          </Grid>
+  
+          <Grid item xs={12} md={8} lg={8}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', height: '100%', boxShadow: 3, borderRadius: 3 }}>
+              <CardContent sx={{ padding: 3 }}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "#333" }}>
+                  Fund Performance
+                </Typography>
+                <FundTableComponent data={fundTableData} />
+              </CardContent>
+            </Paper>
+          </Grid>
+  
+          <Grid item xs={12} md={4} lg={4}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', height: '100%', boxShadow: 3, borderRadius: 3 }}>
+              <CardContent sx={{ padding: 3 }}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "#333" }}>
+                  Top ROI Sources
+                </Typography>
+                <ReactApexChart
+                  options={{
+                    chart: {
+                      type: "pie",
+                      width: '100%',
+                    },
+                    legend: { position: 'bottom', onItemClick: { toggleDataSeries: true } },
+                    labels: pieChartData.labels,
+                    states: { active: { filter: { type: "none" } } },
+                    dataLabels: { enabled: true },
+                    stroke: { width: 0 }
+                  }}
+                  series={pieChartData.values}
+                  type="pie"
+                  height={430}
+                  width="100%"
+                />
+              </CardContent>
+            </Paper>
+          </Grid>
+  
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', height: '100%', boxShadow: 3, borderRadius: 3 }}>
+              <CardContent sx={{ padding: 3 }}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "#333" }}>
+                  Revenue vs Expenses
+                </Typography>
+                <ReactApexChart
+                  options={{
+                    chart: {
+                      type: "line",
+                      width: '100%',
+                    },
+                    xaxis: {
+                      categories: lineChartData.labels,
+                      labels: {
+                        style: {
+                          fontSize: '10px', 
+                        }
+                      }
+                    },
+                    legend: { position: "bottom" },
+                    stroke: { width: 5 },
+                    dataLabels: { enabled: false },
+                    grid: { borderColor: '#e5e5e5' }
+                  }}
+                  series={lineChartData.series}
+                  type="line"
+                  height={300}
+                  width="100%"
+                />
+              </CardContent>
+            </Paper>
+          </Grid>
+  
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper sx={{ display: 'flex', flexDirection: 'column', height: '100%', boxShadow: 3, borderRadius: 3 }}>
+              <CardContent sx={{ padding: 3 }}>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: "#333" }}>
+                  Net Profit
+                </Typography>
+                <ReactApexChart
+                  options={{
+                    chart: {
+                      type: "bar",
+                      width: '100%',
+                    },
+                    xaxis: {
+                      categories: netBarChartData.labels,
+                      labels: {
+                        style: {
+                          fontSize: '10px',// Adjust text size here
+                        }
+                      }
+                    },
+                    legend: { position: "bottom" },
+                    dataLabels: { enabled: false },
+                    grid: { borderColor: '#e5e5e5' },
+                    colors: ['#00FF7F'] 
+                  }}
+                  series={[{ name: "Net Data", data: netBarChartData.values }]}
+                  type="bar"
+                  height={300}
+                  width="100%"
+                />
+              </CardContent>
+            </Paper>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Card sx={{
-              height: { xs: "auto", lg: "auto" }, // Auto height on small screens, fixed on large screens
-            }}>
-            <CardContent>
-              <Typography variant="h6">Website Views</Typography>
-              <ReactApexChart
-                options={{
-                  chart: { type: "bar" },
-                  xaxis: { categories: barChartData.labels },  // Labels for X-axis
-                  legend: { position: "bottom" },
-                  dataLabels: { enabled: false } // Hides numbers on bars
-
-                }}
-                series={[
-                  {
-                    name: "Bar Chart Data", 
-                    data: barChartData.values  // Values for Y-axis
-                  }
-                ]}
-                type="bar"
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Card sx={{
-              height: { xs: "auto", lg: "auto" }, // Auto height on small screens, fixed on large screens
-            }}>
-            <CardContent>
-              <Typography variant="h6">Daily Sales</Typography>
-              <ReactApexChart
-                options={{
-                  chart: { type: "line" },
-                  xaxis: { categories: lineChartData.labels }, // X-axis Years
-                  legend: { position: "bottom" },
-                  stroke: { width: 2 },
-                  dataLabels: { enabled: false } // Hide numbers on points
-                }}
-                series={lineChartData.series} // Two data series: Revenues & Expenses
-                type="line"
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Card sx={{
-              height: { xs: "auto", lg: "auto" }, // Auto height on small screens, fixed on large screens
-            }}>
-            <CardContent>
-              <Typography variant="h6">api 4</Typography>
-              <FundTableComponent data={fundTableData} />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={6} lg={4}>
-          <Card sx={{
-              height: { xs: "auto", lg: "auto" }, // Auto height on small screens, fixed on large screens
-            }}>
-            <CardContent>
-              <Typography variant="h6">Daily Sales</Typography>
-              <ReactApexChart
-                options={{
-                  chart: { type: "bar" },
-                  xaxis: { categories: netBarChartData.labels },  // Labels for X-axis
-                  legend: { position: "bottom" },
-                  dataLabels: { enabled: false } // Hides numbers on bars
-
-                }}
-                series={[
-                  {
-                    name: "Bar Chart Data", 
-                    data: netBarChartData.values  // Values for Y-axis
-                  }
-                ]}
-                type="bar"
-              />
-            </CardContent>
-          </Card>
-        </Grid>        
-      </Grid>
-    </Box>
+  
+        <Box sx={{ flexGrow: 0 }} />
+      </Box>
     </>
   );
-}
-
-export default App;
+  };
+  
+  export default App;
+  
