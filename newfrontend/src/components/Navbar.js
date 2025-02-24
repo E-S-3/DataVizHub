@@ -5,6 +5,9 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { initialise } from "../service/api0";
+import { useNavigate } from "react-router-dom"; //  Import for navigation
+import { signOut } from "firebase/auth"; //  Import Firebase sign out
+import { auth } from "../firebaseConfig"; //  Import Firebase auth
 
 
 const Navbar = ({ onFilterChange }) => {
@@ -15,6 +18,7 @@ const Navbar = ({ onFilterChange }) => {
 
   const [loading, setLoading] = useState(true); // State to manage spinner visibility
 
+  const navigate = useNavigate(); // ✅ Used to redirect after logout
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const handleApply = () => {
@@ -34,6 +38,12 @@ const Navbar = ({ onFilterChange }) => {
         }
         fetchData();
     }, []);
+
+    //  Handle Logout Function
+  const handleLogout = async () => {
+    await signOut(auth); // Sign out from Firebase
+    navigate("/"); // Redirect to login page
+  };
 
   return (
     <AppBar 
@@ -143,6 +153,9 @@ const Navbar = ({ onFilterChange }) => {
                 >
                   Apply
                 </Button>
+
+                {/* Logout Button */}
+                <Button variant="contained" color="error" onClick={handleLogout} sx={{ width: isMobile ? "100%" : "auto" }}>Logout</Button>
               </Box>
             ) : null}
           </>
