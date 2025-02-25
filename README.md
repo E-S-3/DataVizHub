@@ -19,18 +19,18 @@ Here're some of the project's best features:
 
 <h2>🛠️ Installation Steps:</h2>
 
-<p>1. Create the MYSQL Database:</p>
+<p>1. Create the MYSQL Database &amp; Run SQL files</p>
 
 ```
 CREATE DATABASE data_viz_hub;
 ```
 
-<p>2. Run the SQL ScriptsExecute the provided SQL script in MySQL to initialize tables and insert sample data.</p>
+<p>2. Run the SQL Scripts provided SQL in MySQL to initialize tables and insert  data.</p>
 
 <p>3. Clone the Repository</p>
 
 ```
-git clone https://github.com/yourusername/DataVizHub.git cd DataVizHub
+git clone https://github.com/SurentharRajamohan/DataVizHub.git cd DataVizHub
 ```
 
 <p>4. Set Up the Backend (FastAPI)</p>
@@ -82,4 +82,3 @@ Technologies used in the project:
 *   Kubernetes (Minikube for local testing)
 *   Firebase Google Sign-In
 *   Pandas
-
