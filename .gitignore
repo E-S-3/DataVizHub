@@ -5,4 +5,5 @@ data_source_cleaning/dataset/department.csv
 data_source_cleaning/dataset/cost_center.csv
 data_source_cleaning/CityExpensesAndRevenue.csv
 .env
+venv
 __pycache__

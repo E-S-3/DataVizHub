@@ -1,11 +1,11 @@
 # Use Python 3.12.2 as the base image
-FROM python:3.11
+FROM python:3.12.2
 
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies with verbose output
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --verbose --no-cache-dir -r requirements.txt
 
 # Copy application files
 COPY . .
