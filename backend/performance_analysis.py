@@ -39,4 +39,4 @@ df = df.sort_values(by="Average Time (ms)", ascending=False)
 
 print(df)
 
-df.to_csv("api_performance_report.csv", index=False)
+df.to_csv("api_performance_report.csv", index=True)

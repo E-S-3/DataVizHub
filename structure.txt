@@ -1,20 +1,73 @@
 DATAVIZHUB/
-│── app/  # Main application directory
-│   ├── api/  # API-related files
-│   │   ├── api1.py  # API Endpoint 1
-│   │   ├── api2.py  # API Endpoint 2
-│   │   ├── api3.py  # API Endpoint 3
-│   │   ├── api4.py  # API Endpoint 4
-│   │   ├── api5.py  # API Endpoint 5
-│   │   ├── router.py  # Registers all API routes
-│   ├── core/  # Core application logic
-│   │   ├── config.py  # Stores database configuration
-│   │   ├── database.py  # SQLAlchemy setup with pymysql
-│   │   ├── models.py  # Database table models
-│   ├── services/  
-│   │   ├── data_queries.py  # Query logic for API endpoints
-│   │   ├── schemas.py  # Defines Pydantic schemas for data validation
-│   ├── main.py  # FastAPI app entry 
-│   ├── middleware.py  # Log API Performance
-│── locustfile.py  # Stress test
+|── backend/
+|   │── app/  # Main application directory
+|   │   ├── api/  # API-related files
+|   │   │   ├── api1.py  # API Endpoint 1
+|   │   │   ├── api2.py  # API Endpoint 2
+|   │   │   ├── api3.py  # API Endpoint 3
+|   │   │   ├── api4.py  # API Endpoint 4
+|   │   │   ├── api5.py  # API Endpoint 5
+|   │   │   ├── router.py  # Registers all API routes
+|   │   ├── core/  # Core application logic
+|   │   │   ├── config.py  # Stores database configuration
+|   │   │   ├── database.py  # SQLAlchemy setup with pymysql
+|   │   │   ├── models.py  # Database table models
+|   │   ├── services/  
+|   │   │   ├── data_queries.py  # Query logic for API endpoints
+|   │   │   ├── schemas.py  # Defines Pydantic schemas for data validation
+|   │   ├── main.py  # FastAPI app entry 
+|   │   ├── middleware.py  # Log API Performance
+|   |
+|   │── tests/  # API & SQL Alchemy Test Cases
+|   │   ├── __init__.py
+|   │   ├── test_api.py
+|   │   ├── test_queries.py
+|   |
+|   │── .dockerignore
+|   │── .env
+|   │── .gitignore
+|   │── backend.dockerfile
+|   │── locustfile.py  # Stress test
+|   │── Performance_analysis.py
+|   │── requirements.py  
+|   |
+|── data_source_cleaning/
+|   │── sql_files
+|   │── data_cleaning.ipynb
+|   |
+|── newfrontend/
+|   │── node_modules/
+|   │── public/
+|   │   ├── index.html
+|   │── src/
+|   │   ├── components/
+|   │   │   ├── FundTableComponent
+|   │   │   ├── Login.js
+|   │   │   ├── Navbar.js
+|   │   │   ├── Security.js
+|   │   ├── service/
+|   │   │   ├── api1.js
+|   │   │   ├── api2.js
+|   │   │   ├── api3.js
+|   │   │   ├── api4.js
+|   │   │   ├── api5.js
+|   │   ├── App.js
+|   │   ├── Dashboard.js
+|   │   ├── firebaseConfig.js
+|   │   ├── index.js
+|   │── .dockerignore
+|   │── .env
+|   │── .gitignore
+|   │── frontend.dockerfile
+|   │── package-lock.json
+|   │── package.json
+|   
+|── .dockerignore
+|── .env
+|── .gitignore
+|── .docker-compose.yml
+|── README.md
+|── Structure.txt
+
+
 

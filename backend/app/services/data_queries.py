@@ -2,8 +2,26 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, case, desc, and_
 from app.core.models import Ledger, Department, CostCenter, Fund
 from datetime import datetime, timedelta
+from fastapi import HTTPException
 
-########################  API 0 ######################## 
+########################  Helper Functions ########################  
+
+# Function to check if department exists
+def check_department_exists(db: Session, department_id: int):
+    department = db.query(Department).filter(Department.department_id == department_id).first()
+    if not department:
+        raise HTTPException(status_code=404, detail="Department not found")
+    return department
+
+# Function to validate date range
+def validate_date_range(start_date: str, end_date: str):
+    if start_date and end_date:
+        start_dt = datetime.strptime(start_date, "%Y-%m-%d") if isinstance(start_date, str) else start_date
+        end_dt = datetime.strptime(end_date, "%Y-%m-%d") if isinstance(end_date, str) else end_date
+        if start_dt > end_dt:
+            raise HTTPException(status_code=400, detail="Start date must be before or equal to end date")
+
+########################  API 0 ########################  
 def get_departments_and_ledger_dates(db: Session):
     departments = db.query(Department.department_id, Department.department_name).all()
     earliest_date = db.query(func.min(Ledger.general_ledger_date)).scalar()
@@ -18,6 +36,9 @@ def get_departments_and_ledger_dates(db: Session):
 
 ########################  API 1 ########################  
 def get_top_roi_departments(db: Session, start_date=None, end_date=None):
+    # Validate date range
+    validate_date_range(start_date, end_date)
+
     query = db.query(
         Department.department_name,
         (func.sum(
@@ -45,6 +66,12 @@ def get_top_roi_departments(db: Session, start_date=None, end_date=None):
     return query.all()
 
 def get_top_roi_cost_centers(db: Session, department_id, start_date=None, end_date=None):
+    # Check if department exists
+    check_department_exists(db, department_id)
+    
+    # Validate date range
+    validate_date_range(start_date, end_date)
+
     query = db.query(
         CostCenter.cost_center_description,
         (func.sum(
@@ -76,6 +103,12 @@ def get_top_roi_cost_centers(db: Session, department_id, start_date=None, end_da
 
 ########################  API 2 ########################  
 def get_top_budget_departments(db: Session, department_id=None, start_date=None, end_date=None):
+    # Check if department exists if provided
+    if department_id:
+        check_department_exists(db, department_id)
+
+    # Validate date range
+    validate_date_range(start_date, end_date)
 
     expense_case = case(
         (and_(Ledger.ledger_description == "Expenses", Ledger.amount > 0), Ledger.amount),
@@ -123,14 +156,19 @@ def get_top_budget_departments(db: Session, department_id=None, start_date=None,
 
 ########################  API 3 ########################  
 def get_revenue_expenses_by_year(db: Session, department_id=None, start_date=None, end_date=None):
-    """ 
-    Get revenue and expenses over time, filtered by department, 
+    # Check if department exists if provided
+    if department_id:
+        check_department_exists(db, department_id)
+
+    # Validate date range
+    validate_date_range(start_date, end_date)
+    
+    """ Get revenue and expenses over time, filtered by department, 
     with automatic time granularity selection:
       - < 1 month → group by day
       - < 1 year → group by month
       - ≥ 1 year → group by year
     """
-
     # Determine the appropriate time grouping
     if start_date and end_date:
         start_dt = datetime.strptime(start_date, "%Y-%m-%d") if isinstance(start_date, str) else start_date
@@ -182,8 +220,14 @@ def get_revenue_expenses_by_year(db: Session, department_id=None, start_date=Non
 
 ########################  API 4 ########################  
 def get_fund_table(db: Session, department_id=None, start_date=None, end_date=None):
-    """ Get fund description, expenses, revenues, ratio, and ROI filtered by department. """
+    # Check if department exists if provided
+    if department_id:
+        check_department_exists(db, department_id)
 
+    # Validate date range
+    validate_date_range(start_date, end_date)
+    
+    """ Get fund description, expenses, revenues, ratio, and ROI filtered by department. """
     revenue_case = case(
         (and_(Ledger.ledger_description == "Revenues", Ledger.amount > 0), Ledger.amount),
         (and_(Ledger.ledger_description == "Expenses", Ledger.amount < 0), -Ledger.amount),
@@ -226,13 +270,19 @@ def get_fund_table(db: Session, department_id=None, start_date=None, end_date=No
 
 ########################  API 5 ########################  
 def get_net_profit_by_time(db: Session, department_id=None, start_date=None, end_date=None):
+    # Check if department exists if provided
+    if department_id:
+        check_department_exists(db, department_id)
+
+    # Validate date range
+    validate_date_range(start_date, end_date)
+    
     """ 
     automatic time series selection:
       - < 1 month → group by day
       - < 1 year → group by month
       - >= 1 year → group by year
     """
-
     # Determine the appropriate time grouping
     if start_date and end_date:
         start_dt = datetime.strptime(start_date, "%Y-%m-%d") if isinstance(start_date, str) else start_date
