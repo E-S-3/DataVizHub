@@ -1,6 +1,9 @@
 <h1 align="center" id="title">DataVizHub</h1>
 
-<p id="description">DataVizHub is a modern financial dashboard designed to manage visualize and analyze large-scale financial data. It provides a seamless experience by integrating a high-performance backend powered by FastAPI an interactive ReactJS frontend and a robust MySQL database. The system enables real-time financial insights with intuitive visualizations and efficient data processing.</p>
+<p id="description">DataVizHub is a modern financial dashboard designed to manage visualize and analyze large-scale financial data. It provides a seamless experience by integrating a high-performance backend powered by FastAPI an interactive ReactJS frontend and a robust MySQL database. The system enables real-time financial insights with intuitive visualizations and efficient data processing.
+
+A collaborative project by [E-S-3](https://github.com/E-S-3) and [Surenthar Rajamohan](https://github.com/SurentharRajamohan).
+</p>
 
   
   
